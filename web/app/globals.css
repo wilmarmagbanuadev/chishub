@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --primary: #f97316;
+  --primary-foreground: #ffffff;
+  --secondary: #fb923c;
+  --border: #e2e8f0;
+  --ring: #f97316;
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, sans-serif;
+  min-height: 100vh;
+}
+
+button, a, input, textarea {
+  transition: all 180ms ease;
+}
+
+::selection {
+  background: #fb923c;
+  color: #0f172a;
+}
+
+.dot-grid {
+  background-image: radial-gradient(#0f172a12 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="reveal-up"] {
+    animation: none !important;
+  }
+}
+
+.premium-shadow {
+  box-shadow: 0 24px 64px -28px rgba(15, 23, 42, 0.25);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px);
+}
+
+[data-theme="dark"] body {
+  background: #020617;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: #0f172a !important;
+}
+
+[data-theme="dark"] .bg-\[\#f8fafc\] {
+  background-color: #020617 !important;
+}
+
+[data-theme="dark"] .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .text-slate-700,
+[data-theme="dark"] .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .glass {
+  background: rgba(15, 23, 42, 0.82);
+}

@@ -1,0 +1,26 @@
+services:
+  directus:
+    image: directus/directus:11.17.4
+    container_name: two-brothers-directus
+    restart: unless-stopped
+    ports:
+      - "8055:8055"
+    environment:
+      SECRET: 0a4a174b-37aa-4bec-a61e-e3aa5ca6fcf3
+      ADMIN_EMAIL: admin@twobrothers.store
+      ADMIN_PASSWORD: d1r3ctu5
+      DB_CLIENT: pg
+      DB_HOST: host.docker.internal
+      DB_PORT: 5432
+      DB_DATABASE: tb_store
+      DB_USER: postgres
+      DB_PASSWORD: admin
+      PUBLIC_URL: http://localhost:8055
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: http://localhost:3000
+      STORAGE_LOCATIONS: local
+      STORAGE_LOCAL_DRIVER: local
+      STORAGE_LOCAL_ROOT: /directus/uploads
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
