@@ -60,6 +60,8 @@ def main():
         print("No posts to send to n8n.")
         return 0
 
+    print(f"Found {len(posts)} posts to send to n8n.")
+
     try:
         status, body = send_posts(webhook_url, posts)
     except HTTPError as exc:
