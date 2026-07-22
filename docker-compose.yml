@@ -1,4 +1,67 @@
 services:
+  selenium:
+      profiles: ["tools"]
+      image: selenium/standalone-chromium:4.44.0-20260505
+      shm_size: 2gb
+      ports:
+        - "4444:4444"
+        - "7900:7900"
+      environment:
+        SE_NODE_SESSION_TIMEOUT: 86400
+        SE_SESSION_REQUEST_TIMEOUT: 120
+        SE_SESSION_RETRY_INTERVAL: 2
+        SE_SCREEN_WIDTH: 1440
+        SE_SCREEN_HEIGHT: 1100
+      healthcheck:
+        test: ["CMD", "/opt/bin/check-grid.sh", "--host", "0.0.0.0", "--port", "4444"]
+        interval: 5s
+        timeout: 5s
+        retries: 20
+
+  selenium-scraper:
+    profiles: ["tools"]
+    build:
+      context: ./scrape
+      dockerfile: Dockerfile
+    depends_on:
+      selenium:
+        condition: service_started
+    environment:
+      SELENIUM_REMOTE_URL: http://selenium:4444
+      SCRAPER_TIMEZONE: Asia/Manila
+      FB_EMAIL: ${FB_EMAIL:-}
+      FB_PASSWORD: ${FB_PASSWORD:-}
+    volumes:
+      - ./scrape/output:/app/output
+      - ./scrape/fb_page_scraper:/app/fb_page_scraper:ro
+    stdin_open: true
+    tty: true
+
+  scraper-api:
+    profiles: ["tools"]
+    build:
+      context: ./scrape
+      dockerfile: Dockerfile
+    depends_on:
+      selenium:
+        condition: service_started
+    entrypoint:
+      - uvicorn
+      - fb_page_scraper.api:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+    ports:
+      - "8010:8000"
+    environment:
+      SELENIUM_REMOTE_URL: http://selenium:4444
+      SCRAPER_TIMEZONE: Asia/Manila
+      FB_EMAIL: ${FB_EMAIL:-}
+      FB_PASSWORD: ${FB_PASSWORD:-}
+    volumes:
+      - ./scrape/output:/app/output
+      - ./scrape/fb_page_scraper:/app/fb_page_scraper:ro
   directus:
     image: directus/directus:11.17.4
     container_name: chishub-directus

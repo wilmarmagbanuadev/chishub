@@ -5,3 +5,8 @@ out/
 !.env.example
 npm-debug.log*
 .DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+scrape/output/*
+!scrape/output/.gitkeep
