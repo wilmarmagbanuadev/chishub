@@ -17,9 +17,30 @@ cd /d "%PROJECT_ROOT%"
 echo [%date% %time%] Working dir: %CD%>> "%BAT_LOG%"
 
 set "PYTHON_EXE="
+set "SCRAPY_EXE="
 
-if exist "%LocalAppData%\Programs\Python\Python313\python.exe" (
-    set "PYTHON_EXE=%LocalAppData%\Programs\Python\Python313\python.exe"
+if exist "%LocalAppData%\Programs\Python\Python313\Scripts\scrapy.exe" (
+    set "SCRAPY_EXE=%LocalAppData%\Programs\Python\Python313\Scripts\scrapy.exe"
+)
+
+if "%SCRAPY_EXE%"=="" (
+    for /f "delims=" %%P in ('where scrapy 2^>nul') do (
+        if "%SCRAPY_EXE%"=="" set "SCRAPY_EXE=%%P"
+    )
+)
+
+if not "%SCRAPY_EXE%"=="" (
+    for %%S in ("%SCRAPY_EXE%") do (
+        if exist "%%~dpS..\python.exe" (
+            set "PYTHON_EXE=%%~dpS..\python.exe"
+        )
+    )
+)
+
+if "%PYTHON_EXE%"=="" (
+    if exist "%LocalAppData%\Programs\Python\Python313\python.exe" (
+        set "PYTHON_EXE=%LocalAppData%\Programs\Python\Python313\python.exe"
+    )
 )
 
 if "%PYTHON_EXE%"=="" (
@@ -29,20 +50,21 @@ if "%PYTHON_EXE%"=="" (
 )
 
 if "%PYTHON_EXE%"=="" (
-    for /f "delims=" %%P in ('where py 2^>nul') do (
-        if "%PYTHON_EXE%"=="" set "PYTHON_EXE=%%P"
-    )
-)
-
-if "%PYTHON_EXE%"=="" (
     echo [%date% %time%] ERROR: Python was not found for this user.>> "%BAT_LOG%"
     exit /b 1
 )
 
+if "%SCRAPY_EXE%"=="" (
+    echo [%date% %time%] ERROR: scrapy.exe was not found for this user.>> "%BAT_LOG%"
+    echo Install Scrapy with: "%PYTHON_EXE%" -m pip install scrapy scrapy-playwright>> "%BAT_LOG%"
+    exit /b 1
+)
+
 echo [%date% %time%] Python: %PYTHON_EXE%>> "%BAT_LOG%"
+echo [%date% %time%] Scrapy: %SCRAPY_EXE%>> "%BAT_LOG%"
 echo [%date% %time%] Running Scrapy...>> "%BAT_LOG%"
 
-"%PYTHON_EXE%" -m scrapy runspider "%SPIDER_FILE%" -O "%POSTS_FILE%" > "%SCRAPY_LOG%" 2>&1
+"%SCRAPY_EXE%" runspider "%SPIDER_FILE%" -O "%POSTS_FILE%" > "%SCRAPY_LOG%" 2>&1
 
 set "EXIT_CODE=%ERRORLEVEL%"
 
