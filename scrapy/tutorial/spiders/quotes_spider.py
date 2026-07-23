@@ -76,11 +76,11 @@ class QuotesSpider(scrapy.Spider):
 
     async def start(self):
         urls = [
-            "https://www.facebook.com/negrospowerph/",
-            "https://www.facebook.com/murciawaterdistrict/",
-            "https://www.facebook.com/NGCPph/",
-            "https://www.facebook.com/PAGASA.DOST.GOV.PH/",
-            "https://www.facebook.com/profile.php?id=61573925486634/",
+            "https://www.facebook.com/negrospowerph",
+            "https://www.facebook.com/murciawaterdistrict",
+            "https://www.facebook.com/NGCPph",
+            "https://www.facebook.com/PAGASA.DOST.GOV.PH",
+            "https://www.facebook.com/profile.php?id=61573925486634",
         ]
 
         for url in urls:
