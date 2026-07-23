@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY tutorial ./tutorial
 COPY run_forever.sh ./run_forever.sh
 
-RUN chmod +x ./run_forever.sh
+RUN sed -i 's/\r$//' ./run_forever.sh \
+    && chmod +x ./run_forever.sh
 
 CMD ["./run_forever.sh"]
