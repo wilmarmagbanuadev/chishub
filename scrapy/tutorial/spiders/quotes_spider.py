@@ -785,7 +785,7 @@ class QuotesSpider(scrapy.Spider):
 
         for line in text.splitlines():
             line = " ".join(line.split()).strip()
-            line = self.remove_expansion_marker(line)
+            line = self.remove_expanded_marker(line)
 
             if not line:
                 continue
@@ -817,12 +817,34 @@ class QuotesSpider(scrapy.Spider):
     def remove_collapsed_marker(self, text):
         return self.remove_expansion_marker(text)
 
+    def remove_expanded_marker(self, text):
+        return re.sub(
+            r"\s*see\s+less\s*$",
+            "",
+            text,
+            flags=re.IGNORECASE,
+        ).strip()
+
     def remove_expansion_marker(self, text):
         return re.sub(
             r"\s*(\.\.\.|…)?\s*see\s+(more|less)\s*$",
             "",
             text,
             flags=re.IGNORECASE,
+        ).strip()
+
+    def remove_expansion_marker(self, text):
+        text = re.sub(
+            r"\s*see\s+(more|less)\s*$",
+            "",
+            text,
+            flags=re.IGNORECASE,
+        ).strip()
+
+        return re.sub(
+            r"\s*(\.\.\.|…|â€¦)$",
+            "",
+            text,
         ).strip()
 
     def format_directus_datetime(self, value):

@@ -8,6 +8,8 @@ services:
     environment:
       TZ: Asia/Manila
       SCRAPE_INTERVAL_SECONDS: 300
+      N8N_METHOD: POST
+      N8N_USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36
       N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL:-https://n8n.chishub.com/webhook/cf216e36-9b3f-49af-8555-5e565f9f6b1e}
     volumes:
       - ./tutorial/posts.json:/app/tutorial/posts.json
