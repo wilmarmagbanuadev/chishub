@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.log
+tutorial/__pycache__/
+tutorial/spiders/__pycache__/
+tutorial/scheduler*.log
+tutorial/scrapy.log
+tutorial/n8n.log

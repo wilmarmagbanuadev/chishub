@@ -22,6 +22,7 @@
 
 
 
+import os
 import re
 from datetime import datetime, timedelta
 from urllib.parse import urljoin
@@ -63,10 +64,11 @@ class QuotesSpider(scrapy.Spider):
 
         "PLAYWRIGHT_LAUNCH_OPTIONS": {
             "headless": True,
-
-            # Uses your installed Google Chrome.
-            # Remove this line when using Playwright Chromium.
-            "channel": "chrome",
+            **(
+                {"channel": os.getenv("PLAYWRIGHT_CHANNEL")}
+                if os.getenv("PLAYWRIGHT_CHANNEL")
+                else {}
+            ),
         },
 
         "PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT": 60000,

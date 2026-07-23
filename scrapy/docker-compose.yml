@@ -1,0 +1,13 @@
+services:
+  facebook-scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chishub-facebook-scraper
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Manila
+      SCRAPE_INTERVAL_SECONDS: 300
+      N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL:-https://n8n.chishub.com/webhook/cf216e36-9b3f-49af-8555-5e565f9f6b1e}
+    volumes:
+      - ./tutorial/posts.json:/app/tutorial/posts.json
