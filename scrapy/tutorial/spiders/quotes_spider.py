@@ -877,7 +877,25 @@ class QuotesSpider(scrapy.Spider):
             "no power",
         ]
 
-        if not any(term in text for term in outage_terms):
+        weather_terms = [
+            "typhoon",
+            "tropical cyclone",
+            "storm signal",
+            "wind signal",
+            "weather advisory",
+            "heavy rainfall",
+            "rainfall warning",
+            "flood warning",
+            "flood advisory",
+            "hydrological forecast",
+            "low pressure area",
+            "lpa",
+        ]
+
+        if not any(
+            term in text
+            for term in outage_terms + weather_terms
+        ):
             return False
 
         if "facebook.com/ngcpph" in source_url.lower():
