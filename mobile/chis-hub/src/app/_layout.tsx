@@ -4,7 +4,7 @@ import { useAuthState } from '@/utils/authState';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 export default function RootLayout() {
   const isLoggedIn = useAuthState((state) => state.isLoggedIn);
-
+   
   return (
      <SafeAreaProvider>
       <Stack screenOptions={{ headerShown: false }}>

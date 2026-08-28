@@ -21,7 +21,7 @@ export function AppAlertCard(
   }: PostItem) {
   
 
-  return ( <TouchableOpacity className='flex w-full p-4 gap-1 rounded-xl bg-white my-2' 
+  return ( <TouchableOpacity 
     onPress={()=> {
       router.push({
         pathname: '/pages/dashboard/alert/[id]',
@@ -31,6 +31,7 @@ export function AppAlertCard(
       });
     }
   }>
+    <View className='flex w-full p-4 gap-1 rounded-xl shadow-sm bg-white my-2' >
       <View className='flex-row justify-between flex'>
         <View className='flex-row gap-2 flex-1 items-center'>
           <View  className={`h-8 w-8 items-center justify-center rounded-full ${
@@ -75,6 +76,8 @@ export function AppAlertCard(
           <Text className='text-neutral-400 text-[11px]'>Murcia, Negros Occidental</Text>
       </View> */}
       </View>
+    </View>
+      
     </TouchableOpacity>
     
     

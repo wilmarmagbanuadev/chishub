@@ -6,6 +6,7 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import { useTimeDate } from '@/hooks/use-time-date';
 import { AppButton } from '@/components';
 import * as Linking from 'expo-linking';
+import { useDirectus } from '@/hooks/use-directus';
 
 interface Alert {
   id: string | number;
@@ -25,6 +26,7 @@ export default function AlertDetailsScreen() {
   const [alert, setAlert] = useState<Alert | null>(null);
   const [loading, setLoading] = useState(true);
   const { id } = useLocalSearchParams<{ id: string }>();
+  const publicPosts = useDirectus<Alert>('public_post');
   const formatDate = (dateString: string): string => {
     const date = new Date(`${dateString}T00:00:00`);
       return date.toLocaleDateString('en-US', {
@@ -62,17 +64,7 @@ const openImageModal = (index: number) => {
 
     const getAlert = async () => {
       try {
-        const response = await fetch(
-          `https://directus.chishub.com/items/public_post/${id}`
-        );
-
-        if (!response.ok) {
-          throw new Error('Unable to fetch alert');
-        }
-
-        const result = await response.json();
-        console.log("result",result)
-        setAlert(result.data);
+        setAlert(await publicPosts.find(id));
       } catch (error) {
         console.error('Alert fetch error:', error);
       } finally {
@@ -81,7 +73,7 @@ const openImageModal = (index: number) => {
     };
 
     getAlert();
-  }, [id]);
+  }, [id, publicPosts]);
   if (loading) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-white">
@@ -125,9 +117,9 @@ const openImageModal = (index: number) => {
                     JSON.parse(alert.affected_area).map((item:any,index:any)=><Text  key={index}className='text-neutral-500 mt-2 px-4 py-2 bg-neutral-300 text-neutral-700 rounded-full'>{item}</Text>)
                   }
                 </View>
-                <View className='mt-4'>
+                {/* <View className='mt-4'>
                   <Text className='text-neutral-200'>Map of affected areas here</Text>
-                </View>
+                </View> */}
             </View>
           }
           {

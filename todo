@@ -3,6 +3,11 @@ job que
 push notification
 mobile application
 sign in/up as gmail
-
+add geo map what happend in area
 
 make a file sharing app name papasa (meaning to shared) chisdrive
+
+notification
+-[/]if not log in
+-no session dont get alert 
+-specify type of alert according to user settings
